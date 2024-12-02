@@ -74,6 +74,7 @@ const LoginPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log("formdata: ", formData);
+		navigate("/home");
 	};
 	const handleGoToRegister = () => {
 		navigate("/register");
