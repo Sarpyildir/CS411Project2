@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
-const LoginPage = () => {
+import { useNavigate } from "react-router-dom";
+const RegisterPage = () => {
 	const styles = {
 		body: {
 			backgroundColor: "#121212",
@@ -57,9 +57,11 @@ const LoginPage = () => {
 			fontWeight: "bold",
 		},
 	};
+	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
+		role: "",
 	});
 
 	const handleChange = (e) => {
@@ -70,6 +72,9 @@ const LoginPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log("formdata: ", formData);
+	};
+	const handleGoToLogin = () => {
+		navigate("/");
 	};
 	return (
 		<div style={styles.body}>
@@ -116,21 +121,42 @@ const LoginPage = () => {
 						onChange={handleChange}
 					/>
 				</div>
+				<div style={styles.formGroup}>
+					<label
+						style={styles.label}
+						htmlFor="role"
+					>
+						Role:
+					</label>
+					<select
+						style={styles.input}
+						id="role"
+						name="role"
+						value={formData.role}
+						onChange={handleChange}
+					>
+						<option value="user">User</option>
+						<option value="admin">Admin</option>
+					</select>
+				</div>
 
 				<button
 					type="submit"
 					style={{ ...styles.button, ...styles.btnLogin }}
 				>
-					Login
+					Register
 				</button>
 			</form>
 			<div style={styles.form}>
-				<button style={{ ...styles.button, ...styles.btnRegister }}>
-					Register
+				<button
+					style={{ ...styles.button, ...styles.btnRegister }}
+					onClick={handleGoToLogin}
+				>
+					Go to Login
 				</button>
 			</div>
 		</div>
 	);
 };
 
-export default LoginPage;
+export default RegisterPage;
