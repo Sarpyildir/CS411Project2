@@ -4,6 +4,7 @@ import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import HomePage from "./Pages/HomePage";
 import VerificationPage from "./Pages/VerificationPage";
+import PatientAdmissionPage from "./Pages/PatientAdmissionPage";
 
 function App() {
 	return (
@@ -23,6 +24,10 @@ function App() {
 			<Route
 				path="/verify"
 				element={<VerificationPage />}
+			/>
+			<Route
+				path="/patient-admission"
+				element={<PatientAdmissionPage />}
 			/>
 		</Routes>
 	);

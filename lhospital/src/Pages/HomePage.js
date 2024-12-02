@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
 	const styles = {
@@ -51,6 +52,10 @@ const HomePage = () => {
 			color: "black",
 		},
 	};
+	const navigate = useNavigate();
+	const handlePatientAdmissionRedirection = () => {
+		navigate("/patient-admission");
+	};
 
 	return (
 		<div style={styles.body}>
@@ -64,8 +69,11 @@ const HomePage = () => {
 					</p>
 				</header>
 				<div>
-					<button style={{ ...styles.button, ...styles.btnPrimary }}>
-						Go to Dashboard
+					<button
+						style={{ ...styles.button, ...styles.btnPrimary }}
+						onClick={handlePatientAdmissionRedirection}
+					>
+						Patient Admission Module
 					</button>
 					<button
 						style={{ ...styles.button, ...styles.btnSecondary }}
