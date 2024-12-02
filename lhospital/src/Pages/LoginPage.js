@@ -74,7 +74,7 @@ const LoginPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log("formdata: ", formData);
-		navigate("/home");
+		navigate("/verify");
 	};
 	const handleGoToRegister = () => {
 		navigate("/register");
@@ -137,7 +137,7 @@ const LoginPage = () => {
 					style={{ ...styles.button, ...styles.btnRegister }}
 					onClick={handleGoToRegister}
 				>
-					Register
+					Go To Register
 				</button>
 			</div>
 		</div>

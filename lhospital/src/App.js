@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import HomePage from "./Pages/HomePage";
+import VerificationPage from "./Pages/VerificationPage";
 
 function App() {
 	return (
@@ -18,6 +19,10 @@ function App() {
 			<Route
 				path="/home"
 				element={<HomePage />}
+			/>
+			<Route
+				path="/verify"
+				element={<VerificationPage />}
 			/>
 		</Routes>
 	);
