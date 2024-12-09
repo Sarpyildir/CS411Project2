@@ -56,6 +56,9 @@ const HomePage = () => {
 	const handlePatientAdmissionRedirection = () => {
 		navigate("/patient-admission");
 	};
+	const handleInpatientRedirection = () => {
+		navigate("/inpatient");
+	};
 
 	return (
 		<div style={styles.body}>
@@ -74,6 +77,12 @@ const HomePage = () => {
 						onClick={handlePatientAdmissionRedirection}
 					>
 						Patient Admission Module
+					</button>
+					<button
+						style={{ ...styles.button, ...styles.btnPrimary }}
+						onClick={handleInpatientRedirection}
+					>
+						Inpatient Module
 					</button>
 					<button
 						style={{ ...styles.button, ...styles.btnSecondary }}

@@ -5,6 +5,7 @@ import RegisterPage from "./Pages/RegisterPage";
 import HomePage from "./Pages/HomePage";
 import VerificationPage from "./Pages/VerificationPage";
 import PatientAdmissionPage from "./Pages/PatientAdmissionPage";
+import InpatientPage from "./Pages/InpatientPage";
 
 function App() {
 	return (
@@ -28,6 +29,10 @@ function App() {
 			<Route
 				path="/patient-admission"
 				element={<PatientAdmissionPage />}
+			/>
+			<Route
+				path="/inpatient"
+				element={<InpatientPage />}
 			/>
 		</Routes>
 	);
