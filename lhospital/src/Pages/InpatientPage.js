@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const InpatientPage = () => {
@@ -128,6 +128,16 @@ const InpatientPage = () => {
         }
             
     };
+
+    useEffect(async () => {
+        const url = "http://localhost:9000/admission/listAdmissions"
+
+		const result = await fetch(url, {
+			method: "GET",
+			headers: {'Content-Type': 'application/json'}
+		}).then((response) => response.json())
+        .then((data) => console.log(data))
+    })
 
     const [patients, setPatients] = useState([]);
     const [newPatient, setNewPatient] = useState({ name: '', room: '', payment: {amount: 0, account: ""}, care: [] });

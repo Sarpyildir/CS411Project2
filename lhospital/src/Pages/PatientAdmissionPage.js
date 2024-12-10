@@ -89,15 +89,25 @@ const PatientAdmission = () => {
 		},
 	};
 
+	const departments = [
+        { id: 1, name: "Cardiology" },
+        { id: 2, name: "Neurology" },
+        { id: 3, name: "Pediatrics" },
+        { id: 4, name: "Oncology" },
+        { id: 5, name: "Orthopedics" },
+    ];
+
 	const [formData, setFormData] = useState({
-		firstName: "",
-		lastName: "",
-		dob: "",
+		patient_name: "",
+		patient_surname: "",
+		age: 0,
 		gender: "",
 		contact: "",
 		address: "",
-		nationalID: "",
+		government_id: 0,
 		insurance: "",
+		department_id: 0,
+		admitted_on: "10/10/2000"
 	});
 	const navigate = useNavigate();
 
@@ -109,9 +119,17 @@ const PatientAdmission = () => {
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("Patient Data Submitted: ", formData);
+
+		const url = process.env.REACT_APP_BACKEND_URL + "admission/admitAdmission"
+
+		const result = await fetch(url, {
+			method: "POST",
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(formData)
+		})
+
 	};
 
 	const handleCancel = () => {
@@ -133,45 +151,31 @@ const PatientAdmission = () => {
 				>
 					<label
 						style={styles.label}
-						htmlFor="firstName"
+						htmlFor="patient_name"
 					>
 						First Name:
 					</label>
 					<input
 						style={styles.fullWidthInput}
 						type="text"
-						id="firstName"
-						name="firstName"
+						id="patient_name"
+						name="patient_name"
 						value={formData.firstName}
 						onChange={handleChange}
 						required
 					/>
-					<label
-						style={styles.label}
-						htmlFor="middleName"
-					>
-						Middle Name (Optional):
-					</label>
-					<input
-						style={styles.fullWidthInput}
-						type="text"
-						id="middleName"
-						name="middleName"
-						value={formData.middleName}
-						onChange={handleChange}
-					/>
 
 					<label
 						style={styles.label}
-						htmlFor="lastName"
+						htmlFor="patient_surname"
 					>
 						Last Name:
 					</label>
 					<input
 						style={styles.fullWidthInput}
 						type="text"
-						id="lastName"
-						name="lastName"
+						id="patient_surname"
+						name="patient_surname"
 						value={formData.lastName}
 						onChange={handleChange}
 						required
@@ -179,15 +183,15 @@ const PatientAdmission = () => {
 
 					<label
 						style={styles.label}
-						htmlFor="dob"
+						htmlFor="age"
 					>
-						Date of Birth:
+						Age:
 					</label>
 					<input
 						style={styles.fullWidthInput}
-						type="date"
-						id="dob"
-						name="dob"
+						type="number"
+						id="age"
+						name="age"
 						value={formData.dob}
 						onChange={handleChange}
 						required
@@ -215,10 +219,6 @@ const PatientAdmission = () => {
 						</option>
 						<option value="Male">Male</option>
 						<option value="Female">Female</option>
-						<option value="Gender Fluid">Gender Fluid</option>
-						<option value="Attack Helicopter">
-							Attack Helicopter
-						</option>
 					</select>
 
 					<label
@@ -255,15 +255,15 @@ const PatientAdmission = () => {
 
 					<label
 						style={styles.label}
-						htmlFor="nationalID"
+						htmlFor="government_id"
 					>
-						National ID:
+						Government ID:
 					</label>
 					<input
 						style={styles.fullWidthInput}
-						type="text"
-						id="nationalID"
-						name="nationalID"
+						type="number"
+						id="government_id"
+						name="government_id"
 						value={formData.nationalID}
 						onChange={handleChange}
 						required
@@ -283,6 +283,27 @@ const PatientAdmission = () => {
 						value={formData.insurance}
 						onChange={handleChange}
 					/>
+					<label style={styles.label} htmlFor="department">
+                        Department:
+                    </label>
+                    <select
+                        style={styles.fullWidthInput}
+						type="number"
+                        id="department_id"
+                        name="department_id"
+                        value={formData.department_id}
+                        onChange={handleChange}
+                        required
+                        >
+                        <option value="" disabled>
+                            Select Department
+                        </option>
+                        {departments.map((department) => (
+                            <option key={department.id} value={department.id}>
+                                {department.name}
+                            </option>
+                        ))}
+                    </select>
 					<div style={styles.buttonContainer}>
 						<button
 							type="submit"
