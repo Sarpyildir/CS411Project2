@@ -201,27 +201,27 @@ const InpatientPage = () => {
 		}
 
 		try {
-			const url = "http://localhost:9000/inpatients/";
-			const response = await fetch(url, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					government_id: newPatient.government_id,
-					room_number: newPatient.room_number,
-				}),
-			});
+			const response = await fetch(
+				process.env.REACT_APP_BACKEND_URL + "inpatient/inpatients/",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						government_id: newPatient.government_id,
+						room_number: newPatient.room_number,
+					}),
+				}
+			);
 
 			if (response.ok) {
 				const data = await response.json();
-				setPatients([
-					...patients,
-					{ id: data.inpatient_id, ...newPatient },
-				]);
+				console.log("data after add:", data);
 				setNewPatient({
 					government_id: null,
 					room_number: null,
 				});
 				alert("Inpatient added successfully");
+				window.location.reload();
 			} else {
 				const error = await response.json();
 				alert(`Error: ${error.detail || "Failed to add inpatient"}`);
