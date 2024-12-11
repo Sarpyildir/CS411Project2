@@ -1,629 +1,439 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import UpdateInpatientModal from './UpdateInpatientModal';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import UpdateInpatientModal from "./UpdateInpatientModal";
 
 const InpatientPage = () => {
-    const styles = {
-        body: {
-            backgroundColor: "#121212",
-            margin: 0,
-            color: "#e0e0e0",
-            fontFamily: "'Roboto', sans-serif",
-            minHeight: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-        },
-        container: {
-            width: "90%",
-            maxWidth: "1200px",
-            backgroundColor: "#1e1e1e",
-            borderRadius: "10px",
-            padding: "2%",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-            textAlign: "center",
-            position: "absolute",
-            top: "50px",
-            bottom : "50px",
-        },
-        scrollable:{
-            overflowY: "scroll",
-            height: "calc(50vh)",
-        },
-        header: {
-            marginBottom: "20px",
-        },
-        title: {
-            fontSize: "2rem",
-            margin: "10px 0",
-        },
-        form: {
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginBottom: "20px",
-        },
-        label: {
-            marginTop: "10px",
-            alignSelf: "flex-start",
-            color: "#a0a0a0",
-            fontSize: "1rem",
-        },
-        input: {
-            width: "48%",
-            padding: "10px",
-            marginTop: "5px",
-            borderRadius: "5px",
-            border: "1px solid #444",
-            backgroundColor: "#2b2b2b",
-            color: "#e0e0e0",
-            fontSize: "1rem",
-        },
-        fullWidthInput: {
-            width: "100%",
-            padding: "10px",
-            marginTop: "5px",
-            borderRadius: "5px",
-            border: "1px solid #444",
-            backgroundColor: "#2b2b2b",
-            color: "#e0e0e0",
-            fontSize: "1rem",
-            boxSizing: "border-box",
-        },
-        lessWidthInput: {
-            width: "40%",
-            padding: "10px",
-            marginTop: "5px",
-            borderRadius: "5px",
-            border: "1px solid #444",
-            backgroundColor: "#2b2b2b",
-            color: "#e0e0e0",
-            fontSize: "1rem",
-            boxSizing: "border-box",
-        },
-        buttonRegister: {
-            padding: "10px 20px",
-            marginTop: "20px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            backgroundColor: "#6200ea",
-            color: "white",
-            fontWeight: "bold",
-            transition: "background-color 0.3s ease",
-        },
-        buttonCancel: {
-            backgroundColor: "aqua",
-            color: "black",
-        },
-        buttonContainer: {
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-evenly",
-        },
-        buttonDischarge: {
-            padding: "10px 20px",
-            border: "none",
-            margin: "5px",
-            marginLeft: "10px",
-            borderRadius: "5px",
-            cursor: "pointer",
-            backgroundColor: "#6200ea",
-            color: "white",
-            fontWeight: "bold",
-            transition: "background-color 0.3s ease",
-        },
-        impatientBg: {
-            backgroundColor: "#1e1e1e",
-            borderRadius: "10px",
-            padding: "2%",
-            margin: "10px 0",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-            textAlign: "left",
-        }
-            
-    };
+	const styles = {
+		body: {
+			backgroundColor: "#121212",
+			margin: 0,
+			color: "#e0e0e0",
+			fontFamily: "'Roboto', sans-serif",
+			minHeight: "100vh",
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			justifyContent: "center",
+		},
+		container: {
+			width: "90%",
+			maxWidth: "1200px",
+			backgroundColor: "#1e1e1e",
+			borderRadius: "10px",
+			padding: "2%",
+			boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+			textAlign: "center",
+			position: "absolute",
+			top: "50px",
+			bottom: "50px",
+		},
+		scrollable: {
+			overflowY: "scroll",
+			height: "calc(50vh)",
+		},
+		header: {
+			marginBottom: "20px",
+		},
+		title: {
+			fontSize: "2rem",
+			margin: "10px 0",
+		},
+		form: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			marginBottom: "20px",
+		},
+		label: {
+			marginTop: "10px",
+			alignSelf: "flex-start",
+			color: "#a0a0a0",
+			fontSize: "1rem",
+		},
+		input: {
+			width: "48%",
+			padding: "10px",
+			marginTop: "5px",
+			borderRadius: "5px",
+			border: "1px solid #444",
+			backgroundColor: "#2b2b2b",
+			color: "#e0e0e0",
+			fontSize: "1rem",
+		},
+		fullWidthInput: {
+			width: "100%",
+			padding: "10px",
+			marginTop: "5px",
+			borderRadius: "5px",
+			border: "1px solid #444",
+			backgroundColor: "#2b2b2b",
+			color: "#e0e0e0",
+			fontSize: "1rem",
+			boxSizing: "border-box",
+		},
+		lessWidthInput: {
+			width: "40%",
+			padding: "10px",
+			marginTop: "5px",
+			borderRadius: "5px",
+			border: "1px solid #444",
+			backgroundColor: "#2b2b2b",
+			color: "#e0e0e0",
+			fontSize: "1rem",
+			boxSizing: "border-box",
+		},
+		buttonRegister: {
+			padding: "10px 20px",
+			marginTop: "20px",
+			border: "none",
+			borderRadius: "5px",
+			cursor: "pointer",
+			backgroundColor: "#6200ea",
+			color: "white",
+			fontWeight: "bold",
+			transition: "background-color 0.3s ease",
+		},
+		buttonCancel: {
+			backgroundColor: "aqua",
+			color: "black",
+		},
+		buttonContainer: {
+			display: "flex",
+			width: "100%",
+			justifyContent: "space-evenly",
+		},
+		buttonDischarge: {
+			padding: "10px 20px",
+			border: "none",
+			margin: "5px",
+			marginLeft: "10px",
+			borderRadius: "5px",
+			cursor: "pointer",
+			backgroundColor: "#6200ea",
+			color: "white",
+			fontWeight: "bold",
+			transition: "background-color 0.3s ease",
+		},
+		impatientBg: {
+			backgroundColor: "#1e1e1e",
+			borderRadius: "10px",
+			padding: "2%",
+			margin: "10px 0",
+			boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+			display: "flex",
+			justifyContent: "space-between",
+			alignItems: "center",
+			flexDirection: "row",
+			textAlign: "left",
+		},
+	};
 
-    useEffect(() => {
-        const fetchInpatients = async () => {
-            const controller = new AbortController();
-            const signal = controller.signal;
-    
-            try {
-                const url = process.env.REACT_APP_BACKEND_URL + "inpatient/inpatients/";
-                const response = await fetch(url, {
-                    method: "GET",
-                    headers: { 'Content-Type': 'application/json' },
-                    signal,
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setPatients(data);
-                    console.log(data);
-                } else {
-                    console.error("Failed to fetch inpatients.");
-                }
-            } catch (error) {
-                if (error.name === "AbortError") {
-                    console.log("Fetch aborted");
-                } else {
-                    console.error("Error fetching inpatients:", error);
-                }
-            }
-    
-            return () => controller.abort(); // Cleanup on unmount
-        };
-    
-        fetchInpatients();
-    }, []);
-    
-    
+	useEffect(() => {
+		const fetchInpatients = async () => {
+			const controller = new AbortController();
+			const signal = controller.signal;
 
-    const [showUpdateModal, setShowUpdateModal] = useState(false);
-    const [selectedPatient, setSelectedPatient] = useState(null);
+			try {
+				const url =
+					process.env.REACT_APP_BACKEND_URL + "inpatient/inpatients/";
+				const response = await fetch(url, {
+					method: "GET",
+					headers: { "Content-Type": "application/json" },
+					signal,
+				});
+				if (response.ok) {
+					const data = await response.json();
+					setPatients(data);
+					console.log(data);
+				} else {
+					console.error("Failed to fetch inpatients.");
+				}
+			} catch (error) {
+				if (error.name === "AbortError") {
+					console.log("Fetch aborted");
+				} else {
+					console.error("Error fetching inpatients:", error);
+				}
+			}
 
-    const [patients, setPatients] = useState([]);
-    const [newPatient, setNewPatient] = useState({ name: '', room: '', payment: {amount: 0, account: ""}, care: [] });
-    const navigate = useNavigate();
-    const [searchQuery, setSearchQuery] = useState("");
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
-    };
+			return () => controller.abort(); // Cleanup on unmount
+		};
 
-    
-    // filter patients based on search query. name surname is colelcted in one string using patient[9] and patient[10]
-    const filteredPatients = patients.filter(patient => {
-        const roomNumber = String(patient[3] || "").toLowerCase(); // Convert room number to string
-        const firstName = String(patient[9] || "").toLowerCase(); // Convert first name to string
-        const lastName = String(patient[10] || "").toLowerCase(); // Convert last name to string
-        const searchTerm = searchQuery.toLowerCase(); // Convert the search term to lowercase
-    
-        return (
-            roomNumber.includes(searchTerm) || // Match room number
-            (`${firstName} ${lastName}`.includes(searchTerm)) // Match full name
-        );
-    });
-    
+		fetchInpatients();
+	}, []);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewPatient({ ...newPatient, [name]: value });
-    };
+	const [showUpdateModal, setShowUpdateModal] = useState(false);
+	const [selectedPatient, setSelectedPatient] = useState(null);
 
-    const handleAddPatient = async () => {
-        if (!newPatient.name) {
-            alert("Please enter a name");
-            return;
-        }
-    
-        try {
-            const url = "http://localhost:9000/inpatients/";
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    patient_admission_id: newPatient.patient_admission_id,
-                    department_id: newPatient.department_id,
-                    room_number: newPatient.room,
-                    entrance_date: new Date().toISOString(),
-                    discharge_date: null,
-                    status: "active",
-                }),
-            });
-    
-            if (response.ok) {
-                const data = await response.json();
-                setPatients([...patients, { id: data.inpatient_id, ...newPatient }]);
-                setNewPatient({ name: '', room: '', payment: { amount: 0, account: "" }, care: [] });
-                alert("Inpatient added successfully");
-            } else {
-                const error = await response.json();
-                alert(`Error: ${error.detail || "Failed to add inpatient"}`);
-            }
-        } catch (error) {
-            console.error("Error adding inpatient:", error);
-            alert("An error occurred while adding the inpatient.");
-        }
-    };
-    
-    const handleOpenUpdateModal = (patient) => {
-        setSelectedPatient(patient);
-        setShowUpdateModal(true);
-    };
-    
-    const handleCloseUpdateModal = () => {
-        setSelectedPatient(null);
-        setShowUpdateModal(false);
-    };
+	const [patients, setPatients] = useState([]);
+	const [newPatient, setNewPatient] = useState({
+		name: "",
+		room: "",
+		payment: { amount: 0, account: "" },
+		care: [],
+	});
+	const navigate = useNavigate();
+	const [searchQuery, setSearchQuery] = useState("");
+	const handleSearchChange = (e) => {
+		setSearchQuery(e.target.value);
+	};
 
-    const handleUpdate = (inpatientId, updatedData) => {
+	// filter patients based on search query. name surname is colelcted in one string using patient[9] and patient[10]
+	const filteredPatients = patients.filter((patient) => {
+		const roomNumber = String(patient[3] || "").toLowerCase(); // Convert room number to string
+		const firstName = String(patient[9] || "").toLowerCase(); // Convert first name to string
+		const lastName = String(patient[10] || "").toLowerCase(); // Convert last name to string
+		const searchTerm = searchQuery.toLowerCase(); // Convert the search term to lowercase
 
-        const payload = {
-            department_id: updatedData.department, // Ensure this is an integer
-            room: parseInt(updatedData.room, 10),  // Convert room number to integer
-            status: updatedData.status.toLowerCase(), // Ensure status matches backend enums (e.g., lowercase)
-        };
-    
-        console.log("Payload sent to backend:", payload);
+		return (
+			roomNumber.includes(searchTerm) || // Match room number
+			`${firstName} ${lastName}`.includes(searchTerm) // Match full name
+		);
+	});
 
-        const url = process.env.REACT_APP_BACKEND_URL + `inpatient/inpatients/update_department_room_status/${inpatientId}`;
-        fetch(url, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedData),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    alert("Inpatient updated successfully.");
-                    setPatients((prev) =>
-                        prev.map((p) => (p[0] === inpatientId ? { ...p, ...updatedData } : p))
-                    );
-                } else {
-                    alert("Failed to update inpatient.");
-                }
-            })
-            .catch((error) => console.error("Error updating inpatient:", error));
-    };
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		console.log("name : ", name);
+		setNewPatient({ ...newPatient, [name]: value });
+	};
 
-    const handleDischargePatient = async (index) => {
-        const patientToDischarge = patients[index];
+	const handleAddPatient = async () => {
+		if (!newPatient.name) {
+			alert("Please enter a name");
+			return;
+		}
 
-        const patientId = patientToDischarge[0]; // Extract the ID from the specific index
+		try {
+			const url = "http://localhost:9000/inpatients/";
+			const response = await fetch(url, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					patient_admission_id: newPatient.patient_admission_id,
+					department_id: newPatient.department_id,
+					room_number: newPatient.room,
+					entrance_date: new Date().toISOString(),
+					discharge_date: null,
+					status: "active",
+				}),
+			});
 
-        console.log("Patient to discharge:", patientToDischarge);
-        console.log("Extracted ID:", patientId);
+			if (response.ok) {
+				const data = await response.json();
+				setPatients([
+					...patients,
+					{ id: data.inpatient_id, ...newPatient },
+				]);
+				setNewPatient({
+					name: "",
+					room: "",
+					payment: { amount: 0, account: "" },
+					care: [],
+				});
+				alert("Inpatient added successfully");
+			} else {
+				const error = await response.json();
+				alert(`Error: ${error.detail || "Failed to add inpatient"}`);
+			}
+		} catch (error) {
+			console.error("Error adding inpatient:", error);
+			alert("An error occurred while adding the inpatient.");
+		}
+	};
 
-        if (!patientId) {
-            alert("Patient ID not found");
-            return;
-        }
+	const handleOpenUpdateModal = (patient) => {
+		setSelectedPatient(patient);
+		setShowUpdateModal(true);
+	};
 
-        try {
-            const url = process.env.REACT_APP_BACKEND_URL + `inpatient/inpatients/discharge/${patientId}`;
-            const response = await fetch(url, { method: "PUT" });
+	const handleCloseUpdateModal = () => {
+		setSelectedPatient(null);
+		setShowUpdateModal(false);
+	};
 
-            if (response.ok) {
-                setPatients(patients.filter((_, i) => i !== index)); // Remove the discharged patient
-                alert("Patient discharged successfully.");
-            } else {
-                const error = await response.json();
-                alert(`Error: ${error.detail || "Failed to discharge patient"}`);
-            }
-        } catch (error) {
-            console.error("Error discharging patient:", error);
-            alert("An error occurred while discharging the patient.");
-        }
-    };
-    
+	const handleUpdate = (inpatientId, updatedData) => {
+		updatedData.room_number = parseInt(updatedData.room_number);
 
+		console.log("data to be : ", updatedData);
 
-    const handleCancel = () => {
-        navigate("/home");
-    };
+		const url =
+			process.env.REACT_APP_BACKEND_URL +
+			`inpatient/inpatients/update_department_room_status/${inpatientId}`;
+		fetch(url, {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(updatedData),
+		})
+			.then((response) => {
+				if (response.ok) {
+					alert("Inpatient updated successfully.");
+					setPatients((prev) =>
+						prev.map((p) =>
+							p[0] === inpatientId ? { ...p, ...updatedData } : p
+						)
+					);
+				} else {
+					alert("Failed to update inpatient.");
+				}
+			})
+			.catch((error) =>
+				console.error("Error updating inpatient:", error)
+			);
+	};
 
-    const impatient = (patient, index) =>{
-        
-        return (
-            <div key={index} >
-                
-                <div style={styles.impatientBg}>
-                    <p style={{ margin: 0, color: "#e0e0e0", alignContent:"left", justifyContent:"left"}}>Name: {patient[9]+" " +patient[10]} <br/>Department: {patient[18]} Room: {patient[3]} Status: {patient[6]} </p>
-                    <PatientDetails index={index} componentIndex={0} />
-                    {dischargePatientButton(index)}
-                    <button
-                        style={styles.buttonDischarge}
-                        onClick={() => handleOpenUpdateModal(patient)}
-                    >
-                        Update
-                    </button>
-                    <ChangeBedButton index={index} componentIndex={2} />
-                    <CareButton index={index} componentIndex={3} />
-                    <PaymentButton index={index} componentIndex={4} />
-                </div>
-                {componentOpened !== -1 && index === patientOpened && (<div style={styles.impatientBg}>
-                    {openedContent}
-                </div>
-                )}
-            </div>
-        );
-    };
+	const handleDischargePatient = async (index) => {
+		const patientToDischarge = patients[index];
 
-    const dischargePatientButton = (index) => {
-        return (
-            <button
-                style={styles.buttonDischarge}
-                onClick={() => handleDischargePatient(index)} // Use index here
-            >
-                Discharge
-            </button>
-        );
-    };
+		const patientId = patientToDischarge[0]; // Extract the ID from the specific index
 
-    
-    const handleChangeBed = (index, newBed) => {
-        const newPatients = patients.map((patient, i) => {
-            if (i === index) {
-                return { ...patient, room: newBed };
-            }
-            return patient;
-        });
-        setPatients(newPatients);
-    }
+		console.log("Patient to discharge:", patientToDischarge);
+		console.log("Extracted ID:", patientId);
 
-    const ChangeBedButton = ({ index, componentIndex }) => {
-        let newBed = "";
-        return (
-            <div>
-                <button style={styles.buttonDischarge} onClick={() => {
-                    if (componentOpened === componentIndex) {
-                        handleClose();
-                    }
-                    else{
-                        setComponentOpened(index);
-                        setPatientOpened(index);
-                        setOpenedContent(
-                            <div style={{ display: "flex", alignContent:"center"}}>
-                                <input
-                                    style={styles.fullWidthInput}
-                                    type="text"
-                                    name="room"
-                                    placeholder="New Room Number"
+		if (!patientId) {
+			alert("Patient ID not found");
+			return;
+		}
 
-                                    onChange={(e) => { newBed = e.target.value; }}
-                                />
-                                <button style={styles.buttonDischarge} onClick={() => { handleChangeBed(index, newBed); handleClose();}}>Submit</button>
-                            </div>
-                        )
-                    }
-                }}>Change Room</button>
-                
-            </div>
-        );
-    }
+		try {
+			const url =
+				process.env.REACT_APP_BACKEND_URL +
+				`inpatient/inpatients/discharge/${patientId}`;
+			const response = await fetch(url, { method: "PUT" });
 
+			if (response.ok) {
+				setPatients(patients.filter((_, i) => i !== index)); // Remove the discharged patient
+				alert("Patient discharged successfully.");
+			} else {
+				const error = await response.json();
+				alert(
+					`Error: ${error.detail || "Failed to discharge patient"}`
+				);
+			}
+		} catch (error) {
+			console.error("Error discharging patient:", error);
+			alert("An error occurred while discharging the patient.");
+		}
+	};
 
-    const handlePayment = (index, PaymentInfo) => {
-        const newPatients = patients.map((patient, i) => {
-            if (i === index) {
-            return { 
-                ...patient, 
-                payment: {
-                ...patient.payment,
-                ...Object.fromEntries(Object.entries(PaymentInfo).filter(([key, value]) => value !== ""))
-                }
-            };
-            }
-            return patient;
-        });
-        setPatients(newPatients);
-    }
+	const handleCancel = () => {
+		navigate("/home");
+	};
 
-    const PaymentButton = ({ index, componentIndex }) => {
-        let PaymentInfo = {amount: 0, account: ""};
-        return (
-            <div>
-                <button style={styles.buttonDischarge} onClick={() => {
-                    if (componentOpened === componentIndex) {
-                        handleClose();
-                    }
-                    else{
-                        setComponentOpened(componentIndex);
-                        setPatientOpened(index);
-                        setOpenedContent(
-                            <div style={{ display: "flex", alignContent:"center"}}>
-                                <div>
-                                <input
-                                    style={styles.fullWidthInput}
-                                    type="text"
-                                    name="amount"
-                                    placeholder="Amount"
-                                    
-                                    onChange={(e) => { PaymentInfo.amount = e.target.value; }}
-                                />
-                                <input
-                                    style={styles.fullWidthInput}
-                                    type="text"
-                                    name="account"
-                                    placeholder="Account Number"
-                                    
-                                    onChange={(e) => { PaymentInfo.account = e.target.value; }}
-                                />
-                                </div>
-                                <button style={styles.buttonDischarge} onClick={() => { handlePayment(index, PaymentInfo); handleClose();}}>Submit</button>
-                            </div>
-                        )
-                    }
-                }}>Payment</button>
-                
-            </div>
-        );
-    }
+	const dischargePatientButton = (index) => {
+		return (
+			<button
+				style={styles.buttonDischarge}
+				onClick={() => handleDischargePatient(index)} // Use index here
+			>
+				Discharge
+			</button>
+		);
+	};
 
-    const PatientDetails = ({ index, componentIndex }) => {
-        const Patient = patients.find((patient, i) => i === index);
-        console.log(Patient);
-        return (
-            <div>
-                <button style={styles.buttonDischarge} onClick={() => {
-                    if (componentOpened === componentIndex) {
-                        handleClose();
-                    }
-                    else{
-                        setComponentOpened(componentIndex);
-                        setPatientOpened(index);
-                        setOpenedContent(
-                            <div style={{ alignContent:"left", justifyContent:"left"}}>
-                                <p>Payment Account:    {Patient?.payment?.account}</p>
-                                <p>Payment Amount:    {Patient?.payment?.amount}</p>
-                            </div>
-                        )
-                    }
-                }}>Details</button>
-                
-            </div>
-        );
-    }
+	return (
+		<div style={styles.body}>
+			<div style={styles.container}>
+				<header style={styles.header}>
+					<h1 style={styles.title}>Inpatient Module</h1>
+					<p style={{ color: "#a0a0a0" }}>
+						Monitor Hospitalized Patients
+					</p>
+				</header>
+				<div style={styles.form}>
+					<input
+						style={styles.fullWidthInput}
+						type="text"
+						name="name"
+						placeholder="Patient Name"
+						value={newPatient.name}
+						onChange={handleInputChange}
+					/>
+					<input
+						style={styles.fullWidthInput}
+						type="text"
+						name="room_number"
+						placeholder="Room Number"
+						value={newPatient.room}
+						onChange={handleInputChange}
+					/>
+					<div style={styles.buttonContainer}>
+						<button
+							style={styles.buttonRegister}
+							onClick={handleAddPatient}
+						>
+							Add Patient
+						</button>
+						<button
+							style={{
+								...styles.buttonRegister,
+								...styles.buttonCancel,
+							}}
+							onClick={handleCancel}
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "space-between",
+						width: "90%",
+						justifySelf: "center",
+					}}
+				>
+					<h2 style={styles.title}>Current Patients</h2>
+					<input
+						style={styles.lessWidthInput}
+						type="text"
+						placeholder="Search by Name or Room"
+						value={searchQuery}
+						onChange={handleSearchChange}
+					/>
+				</div>
+				<div style={styles.scrollable}>
+					<ul>
+						{filteredPatients.map((patient, index) => (
+							<li
+								key={patient[0] || index}
+								style={styles.impatientBg}
+							>
+								<p>
+									<strong>ID:</strong> {patient[0]} <br />
+									<strong>Name:</strong>{" "}
+									{patient[9] + " " + patient[10]} <br />
+									<strong>Department:</strong> {patient[18]}{" "}
+									<br />
+									<strong>Room:</strong> {patient[3]} <br />
+									<strong>Status:</strong> {patient[6]}
+								</p>
+								{dischargePatientButton(index)}
+								{/* Add the Update button */}
+								<button
+									style={styles.buttonDischarge}
+									onClick={() =>
+										handleOpenUpdateModal(patient)
+									}
+								>
+									Update
+								</button>
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
 
-    
-    const handleCare = (index, newCare) => {
-        const newPatients = patients.map((patient, i) => {
-            if (i === index) {
-                return { ...patient, care: [...patient?.care, newCare] };
-            }
-            return patient;
-        });
-        setPatients(newPatients);
-    };
-
-    const CareButton = ({ index, componentIndex }) => {
-        let newCare = "";
-        return (
-            <div>
-                <button style={styles.buttonDischarge} onClick={() => {
-                    if (componentOpened === componentIndex) {
-                        handleClose();
-                    }
-                    else{
-                        setComponentOpened(componentIndex);
-                        setPatientOpened(index);
-                        console.log(patients[index]?.care);
-                        setOpenedContent(
-                            <div style={{ display: "flex", alignContent:"center"}}>
-                                <input
-                                    style={styles.fullWidthInput}
-                                    type="text"
-                                    name="care"
-                                    placeholder="New Care"
-
-                                    onChange={(e) => { newCare = e.target.value; }}
-                                />
-                                <button style={styles.buttonDischarge} onClick={() => { handleCare(index, newCare); handleClose();}}>Add</button>
-                                <ul>
-                                    {patients[index]?.care.map((care, careIndex) => (
-                                        <li key={careIndex} style={{ display: "flex", alignItems: "center" }}>
-                                            {care}
-                                            <button
-                                                style={{ marginLeft: "10px", color: "red" }}
-                                                onClick={() => {
-                                                    const newPatients = patients?.map((patient, i) => {
-                                                        if (i === index) {
-                                                            return {
-                                                                ...patient,
-                                                                care: patient?.care.filter((_, ci) => ci !== careIndex),
-                                                            };
-                                                        }
-                                                        return patient;
-                                                    });
-                                                    setPatients(newPatients);
-                                                    handleClose();
-                                                }}
-                                            >
-                                                -
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )
-                    }
-                }}>Manage Care {patients[index].index}</button>
-                
-            </div>
-        );
-    }
-
-    const handleClose = () => {
-        setComponentOpened(-1);
-        setOpenedContent("");
-        setPatientOpened(-1);
-    };
-
-    const [componentOpened, setComponentOpened] = useState(-1);
-    const [openedContent, setOpenedContent] = useState("");
-    const [patientOpened, setPatientOpened] = useState(-1);
-    
-    return (
-        <div style={styles.body}>
-            <div style={styles.container}>
-                <header style={styles.header}>
-                    <h1 style={styles.title}>Inpatient Module</h1>
-                    <p style={{ color: "#a0a0a0" }}>Monitor Hospitalized Patients</p>
-                </header>
-                <div style={styles.form}>
-                    <input
-                        style={styles.fullWidthInput}
-                        type="text"
-                        name="name"
-                        placeholder="Patient Name"
-                        value={newPatient.name}
-                        onChange={handleInputChange}
-                    />
-                    <input
-                        style={styles.fullWidthInput}
-                        type="text"
-                        name="room"
-                        placeholder="Room Number"
-                        value={newPatient.room}
-                        onChange={handleInputChange}
-                    />
-                    <div style={styles.buttonContainer}>
-                        <button style={styles.buttonRegister} onClick={handleAddPatient}>Add Patient</button>
-                        <button style={{ ...styles.buttonRegister, ...styles.buttonCancel }} onClick={handleCancel}>Cancel</button>
-                    </div>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", width: "90%", justifySelf: "center" }}>
-                    <h2 style={styles.title}>Current Patients</h2>
-                    <input
-                        style={styles.lessWidthInput}
-                        type="text"
-                        placeholder="Search by Name or Room"
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                    />
-                </div>
-                <div style={styles.scrollable}>
-                    <ul>
-                        {filteredPatients.map((patient, index) => (
-                            <li key={patient[0] || index} style={styles.impatientBg}>
-                                <p>
-                                    <strong>ID:</strong> {patient[0]} <br />
-                                    <strong>Name:</strong> {patient[9] + " " + patient[10]} <br />
-                                    <strong>Department:</strong> {patient[18]} <br />
-                                    <strong>Room:</strong> {patient[3]} <br />
-                                    <strong>Status:</strong> {patient[6]}
-                                </p>
-                                {dischargePatientButton(index)}
-                                {/* Add the Update button */}
-                                <button
-                                    style={styles.buttonDischarge}
-                                    onClick={() => handleOpenUpdateModal(patient)}
-                                >
-                                    Update
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-    
-            {/* Render the modal */}
-            {showUpdateModal && (
-                <UpdateInpatientModal
-                    show={showUpdateModal}
-                    onClose={handleCloseUpdateModal}
-                    onUpdate={handleUpdate}
-                    patient={selectedPatient}
-                />
-            )}
-        </div>
-    );
-    
+			{/* Render the modal */}
+			{showUpdateModal && (
+				<UpdateInpatientModal
+					show={showUpdateModal}
+					onClose={handleCloseUpdateModal}
+					onUpdate={handleUpdate}
+					patient={selectedPatient}
+				/>
+			)}
+		</div>
+	);
 };
 
 export default InpatientPage;
