@@ -255,16 +255,19 @@ const InpatientPage = () => {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(updatedData),
 		})
-			.then((response) => {
-				if (response.ok) {
+			.then(async (response) => {
+				const responseData = await response.json();
+				console.log("res data : ", responseData);
+				if (responseData.error) {
+					alert("Failed to update inpatient. " + responseData.error);
+				} else {
 					alert("Inpatient updated successfully.");
 					setPatients((prev) =>
 						prev.map((p) =>
 							p[0] === inpatientId ? { ...p, ...updatedData } : p
 						)
 					);
-				} else {
-					alert("Failed to update inpatient.");
+					window.location.reload();
 				}
 			})
 			.catch((error) =>
