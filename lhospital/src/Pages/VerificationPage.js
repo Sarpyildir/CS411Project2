@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, } from "react";
 import { useNavigate } from "react-router-dom";
 
 const VerificationPage = () => {
@@ -50,11 +50,23 @@ const VerificationPage = () => {
 	const navigate = useNavigate();
 	const [verificationCode, setVerificationCode] = useState("");
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("Verification Code:", verificationCode);
-		// Implement verification logic here
-		navigate("/home"); // Navigate to the home page upon successful verification
+
+		const url = process.env.REACT_APP_BACKEND_URL + "login/checkCode"
+		
+		const response = await fetch(url, {
+			method: "POST",
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({email: localStorage.getItem("email"), code: verificationCode})
+		})
+
+		if (!response.ok) {
+            alert("Verification code is not correct!")
+			return
+        }
+
+		navigate("/home");
 	};
 
 	const handleGoToLogin = () => {
