@@ -54,7 +54,7 @@ const HomePage = () => {
 	};
 	const navigate = useNavigate();
 	const handlePatientAdmissionRedirection = () => {
-		navigate("/patient-admission");
+		navigate("/admitted-patients");
 	};
 	const handleInpatientRedirection = () => {
 		navigate("/inpatient");

@@ -105,7 +105,7 @@ const PatientAdmission = () => {
 		government_id: 0,
 		insurance: "",
 		department_id: "",
-		admitted_on: "10/10/2000"
+		admitted_on: new Date().toISOString(),
 	});
 	const navigate = useNavigate();
 

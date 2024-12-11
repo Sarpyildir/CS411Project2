@@ -8,6 +8,7 @@ import PatientAdmissionPage from "./Pages/PatientAdmissionPage";
 import InpatientPage from "./Pages/InpatientPage";
 import AdmittedPatientsPage from "./Pages/AdmittedPatientsPage";
 
+
 function App() {
 	return (
 		<Routes>
@@ -31,10 +32,16 @@ function App() {
 				path="/patient-admission"
 				element={<PatientAdmissionPage />}
 			/>
-			<Route
-				path="/inpatient"
-				element={<InpatientPage />}
-			/>
+
+        <Route
+            path = "/admitted-admissions"
+            element = {<AdmittedPatientsPage />}
+        />
+
+		<Route
+			path="/inpatient"
+			element={<InpatientPage />}
+		/>
 
             <Route
                 path="/admitted-patients"
