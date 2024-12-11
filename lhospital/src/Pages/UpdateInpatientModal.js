@@ -5,7 +5,7 @@ const UpdateInpatientModal = ({ show, onClose, onUpdate, patient }) => {
 		// Initialize form data with the patient's current values. if a value is changed, it will be updated in the state.
 		department_id: patient[2],
 		room_number: patient[3],
-		status: patient[6],
+		status: patient[6] || "active",
 	});
 
 	const handleInputChange = (e) => {
