@@ -6,6 +6,7 @@ import HomePage from "./Pages/HomePage";
 import VerificationPage from "./Pages/VerificationPage";
 import PatientAdmissionPage from "./Pages/PatientAdmissionPage";
 import InpatientPage from "./Pages/InpatientPage";
+import AdmittedPatientsPage from "./Pages/AdmittedPatientsPage";
 
 function App() {
 	return (
@@ -34,6 +35,11 @@ function App() {
 				path="/inpatient"
 				element={<InpatientPage />}
 			/>
+
+            <Route
+                path="/admitted-patients"
+                element={<AdmittedPatientsPage />}
+            />
 		</Routes>
 	);
 }

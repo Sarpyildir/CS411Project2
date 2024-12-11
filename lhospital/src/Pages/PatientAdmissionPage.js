@@ -92,9 +92,7 @@ const PatientAdmission = () => {
 	const departments = [
         { id: 1, name: "Cardiology" },
         { id: 2, name: "Neurology" },
-        { id: 3, name: "Pediatrics" },
-        { id: 4, name: "Oncology" },
-        { id: 5, name: "Orthopedics" },
+        { id: 3, name: "Orthopedics" },
     ];
 
 	const [formData, setFormData] = useState({
