@@ -106,7 +106,7 @@ const PatientAdmission = () => {
 		address: "",
 		government_id: 0,
 		insurance: "",
-		department_id: 0,
+		department_id: "",
 		admitted_on: "10/10/2000"
 	});
 	const navigate = useNavigate();
