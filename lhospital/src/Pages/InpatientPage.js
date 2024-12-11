@@ -167,10 +167,8 @@ const InpatientPage = () => {
 
 	const [patients, setPatients] = useState([]);
 	const [newPatient, setNewPatient] = useState({
-		name: "",
-		room: "",
-		payment: { amount: 0, account: "" },
-		care: [],
+		government_id: null,
+		room_number: null,
 	});
 	const navigate = useNavigate();
 	const [searchQuery, setSearchQuery] = useState("");
@@ -193,13 +191,12 @@ const InpatientPage = () => {
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-		console.log("name : ", name);
 		setNewPatient({ ...newPatient, [name]: value });
 	};
 
 	const handleAddPatient = async () => {
-		if (!newPatient.name) {
-			alert("Please enter a name");
+		if (!newPatient.government_id) {
+			alert("Please enter government id of the patient");
 			return;
 		}
 
@@ -209,12 +206,8 @@ const InpatientPage = () => {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
-					patient_admission_id: newPatient.patient_admission_id,
-					department_id: newPatient.department_id,
-					room_number: newPatient.room,
-					entrance_date: new Date().toISOString(),
-					discharge_date: null,
-					status: "active",
+					government_id: newPatient.government_id,
+					room_number: newPatient.room_number,
 				}),
 			});
 
@@ -225,10 +218,8 @@ const InpatientPage = () => {
 					{ id: data.inpatient_id, ...newPatient },
 				]);
 				setNewPatient({
-					name: "",
-					room: "",
-					payment: { amount: 0, account: "" },
-					care: [],
+					government_id: null,
+					room_number: null,
 				});
 				alert("Inpatient added successfully");
 			} else {
@@ -343,9 +334,9 @@ const InpatientPage = () => {
 					<input
 						style={styles.fullWidthInput}
 						type="text"
-						name="name"
-						placeholder="Patient Name"
-						value={newPatient.name}
+						name="government_id"
+						placeholder="Patient Government ID"
+						value={newPatient.government_id}
 						onChange={handleInputChange}
 					/>
 					<input
