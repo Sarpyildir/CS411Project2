@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 const LoginPage = () => {
 	const styles = {
@@ -86,9 +87,12 @@ const LoginPage = () => {
             alert("Wrong password or email!")
 			return
         }
-
-		localStorage.setItem("email", formData.email);
+		
+		const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
+		const encryptedEmail = CryptoJS.AES.encrypt(formData.email, SECRET_KEY).toString();
+		localStorage.setItem("email", encryptedEmail);
 		navigate("/verify");
+		console.log("Login successful!");
 	};
 	const handleGoToRegister = () => {
 		navigate("/register");

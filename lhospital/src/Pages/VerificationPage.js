@@ -1,5 +1,6 @@
 import React, { useState, useEffect, } from "react";
 import { useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 const VerificationPage = () => {
 	const styles = {
@@ -53,20 +54,27 @@ const VerificationPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const url = process.env.REACT_APP_BACKEND_URL + "login/checkCode"
-		
-		const response = await fetch(url, {
-			method: "POST",
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify({email: localStorage.getItem("email"), code: verificationCode})
-		})
+		const encryptedEmail = localStorage.getItem("email");
+		if (encryptedEmail) {
+			console.log(encryptedEmail);
+			const bytes = CryptoJS.AES.decrypt(encryptedEmail, process.env.REACT_APP_SECRET_KEY);
+			const email = bytes.toString(CryptoJS.enc.Utf8);
+			console.log(email);
+			const url = process.env.REACT_APP_BACKEND_URL + "login/checkCode"
+			
+			const response = await fetch(url, {
+				method: "POST",
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({email: email, code: verificationCode})
+			})
 
-		if (!response.ok) {
-            alert("Verification code is not correct!")
-			return
-        }
+			if (!response.ok) {
+				alert("Verification code is not correct!")
+				return
+			}
 
-		navigate("/home");
+			navigate("/home");
+		}
 	};
 
 	const handleGoToLogin = () => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CryptoJS from 'crypto-js';
 
 const ProfilePage = () => {
     const styles = {
@@ -82,19 +83,23 @@ const ProfilePage = () => {
             // Replace with actual data fetching logic
             
             try {
-            const email = localStorage.getItem("email");
+            const encryptedEmail = localStorage.getItem("email");
+                if (encryptedEmail) {
+                    const bytes = CryptoJS.AES.decrypt(encryptedEmail, process.env.REACT_APP_SECRET_KEY);
+                    const email = bytes.toString(CryptoJS.enc.Utf8);
+                    const url = process.env.REACT_APP_BACKEND_URL + "login/getUserByEmail/" + email;
 
-            const url = process.env.REACT_APP_BACKEND_URL + "login/getUserByEmail/" + email;
+                    const response = await fetch(url, {
+                        method: "GET",
+                        headers: {'Content-Type': 'application/json'},
+                        
+                    })
+                    // get the data
+                    const data = await response.json();
+                    console.log(data);
+                    setUserData({name: data.user[1], surname: data.user[2], email: data.user[3], role: data.user[4]});
+                }
 
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {'Content-Type': 'application/json'},
-                
-            })
-            // get the data
-            const data = await response.json();
-            console.log(data);
-            setUserData({name: data.user[1], surname: data.user[2], email: data.user[3], role: data.user[4]});
             }
             catch (error) {
                 console.log("error", error);
@@ -135,26 +140,33 @@ const ProfilePage = () => {
         // Replace with actual data fetching logic
         
         try {
-        const email = localStorage.getItem("email");
 
-        const url = process.env.REACT_APP_BACKEND_URL + "register/changePassword";
+            const encryptedEmail = localStorage.getItem("email");
+            if (encryptedEmail) {
+                const bytes = CryptoJS.AES.decrypt(encryptedEmail, process.env.REACT_APP_SECRET_KEY);
+                const email = bytes.toString(CryptoJS.enc.Utf8);
+                
+                
+                const url = process.env.REACT_APP_BACKEND_URL + "register/changePassword";
 
-        const response = await fetch(url, {
-            method: "PUT",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: email,
-                old_password: oldPassword,
-                new_password: newPassword
-            })
+                const response = await fetch(url, {
+                    method: "PUT",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: email,
+                        old_password: oldPassword,
+                        new_password: newPassword
+                    })
+                    
+                })
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(data.message);
+            }
             
-        })
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-            const data = await response.json();
-            console.log(data.message);
         } catch (error) {
             console.error("Failed to change password:", error);
         }
