@@ -7,6 +7,7 @@ import VerificationPage from "./Pages/VerificationPage";
 import PatientAdmissionPage from "./Pages/PatientAdmissionPage";
 import InpatientPage from "./Pages/InpatientPage";
 import AdmittedPatientsPage from "./Pages/AdmittedPatientsPage";
+import ProfilePage from "./Pages/ProfilePage";
 
 
 function App() {
@@ -43,10 +44,15 @@ function App() {
 			element={<InpatientPage />}
 		/>
 
-            <Route
-                path="/admitted-patients"
-                element={<AdmittedPatientsPage />}
-            />
+		<Route
+			path="/admitted-patients"
+			element={<AdmittedPatientsPage />}
+		/>
+
+		<Route
+			path="/profile"
+			element={<ProfilePage />}
+		/>
 		</Routes>
 	);
 }

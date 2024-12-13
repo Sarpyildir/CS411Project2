@@ -60,6 +60,10 @@ const HomePage = () => {
 		navigate("/inpatient");
 	};
 
+	const handleProfileRedirection = () => {
+		navigate("/profile");
+	};
+
 	return (
 		<div style={styles.body}>
 			<div style={styles.container}>
@@ -86,6 +90,7 @@ const HomePage = () => {
 					</button>
 					<button
 						style={{ ...styles.button, ...styles.btnSecondary }}
+						onClick={handleProfileRedirection}
 					>
 						View Profile
 					</button>
