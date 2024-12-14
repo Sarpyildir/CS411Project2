@@ -9,6 +9,7 @@ import InpatientPage from "./Pages/InpatientPage";
 import AdmittedPatientsPage from "./Pages/AdmittedPatientsPage";
 import UserManagementPage from "./Pages/UserManagementPage";
 import ProfilePage from "./Pages/ProfilePage";
+import RoomsPage from "./Pages/RoomsPage";
 
 
 function App() {
@@ -49,6 +50,11 @@ function App() {
 				path="/user-management"
 				element={<UserManagementPage />}
 			/>
+
+            <Route
+            path = "inpatient/inpatients/rooms"
+            element = {<RoomsPage />}
+            />
 
 		<Route
 			path="/profile"
