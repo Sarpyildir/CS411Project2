@@ -342,29 +342,31 @@ const InpatientPage = () => {
 	return (
 		<div style={styles.body}>
 			<div style={styles.container}>
-				<header style={styles.header}>
+            <header style={styles.header}>
 					<h1 style={styles.title}>Inpatient Module</h1>
 					<p style={{ color: "#a0a0a0" }}>
 						Monitor Hospitalized Patients
 					</p>
 				</header>
 				<div style={styles.form}>
-					<input
-						style={styles.fullWidthInput}
-						type="text"
-						name="government_id"
-						placeholder="Patient Government ID"
-						value={newPatient.government_id}
-						onChange={handleInputChange}
-					/>
-					<input
-						style={styles.fullWidthInput}
-						type="text"
-						name="room_number"
-						placeholder="Room Number"
-						value={newPatient.room}
-						onChange={handleInputChange}
-					/>
+					<div style={styles.inputContainer}>
+						<input
+							style={styles.lessWidthInput}
+							type="text"
+							name="government_id"
+							placeholder="Government ID"
+							value={newPatient.government_id}
+							onChange={handleInputChange}
+						/>
+						<input
+							style={styles.lessWidthInput}
+							type="text"
+							name="room_number"
+							placeholder="Room Number"
+							value={newPatient.room_number}
+							onChange={handleInputChange}
+						/>
+					</div>
 					<div style={styles.buttonContainer}>
 						<button
 							style={styles.buttonRegister}
@@ -381,7 +383,7 @@ const InpatientPage = () => {
 						>
 							Cancel
 						</button>
-                        <button
+						<button
 							style={styles.buttonRooms}
 							onClick={handleNavigateToRoomsPage}
 						>
