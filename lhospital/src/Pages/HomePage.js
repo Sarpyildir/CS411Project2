@@ -87,13 +87,19 @@ const HomePage = () => {
 					</button>
 					<button
 						style={{ ...styles.button, ...styles.btnSecondary }}
-
 						onClick={() => {
 							handleNavigation("/user-management");
 						}}
-
 					>
 						User Management
+					</button>
+					<button
+						style={{ ...styles.button, ...styles.btnSecondary }}
+						onClick={() => {
+							handleNavigation("/profile");
+						}}
+					>
+						Profile Page
 					</button>
 				</div>
 			</div>
