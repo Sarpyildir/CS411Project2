@@ -97,6 +97,16 @@ const InpatientPage = () => {
 			backgroundColor: "aqua",
 			color: "black",
 		},
+        buttonRooms: {
+			backgroundColor: "#4caf50",
+			color: "white",
+			fontWeight: "bold",
+			margin: "0 10px",
+			padding: "10px 20px",
+			borderRadius: "5px",
+			border: "none",
+			cursor: "pointer",
+		},
 		buttonContainer: {
 			display: "flex",
 			width: "100%",
@@ -242,6 +252,11 @@ const InpatientPage = () => {
 		setShowUpdateModal(false);
 	};
 
+    const handleNavigateToRoomsPage = () => {
+		navigate("inpatients/rooms"); // Navigate to the RoomsPage
+	};
+
+
 	const handleUpdate = (inpatientId, updatedData) => {
 		updatedData.room_number = parseInt(updatedData.room_number);
 
@@ -365,6 +380,12 @@ const InpatientPage = () => {
 							onClick={handleCancel}
 						>
 							Cancel
+						</button>
+                        <button
+							style={styles.buttonRooms}
+							onClick={handleNavigateToRoomsPage}
+						>
+							View Rooms
 						</button>
 					</div>
 				</div>
