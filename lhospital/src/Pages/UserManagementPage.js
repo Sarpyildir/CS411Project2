@@ -73,43 +73,56 @@ const UserManagementPage = () => {
 		},
 	};
 
-	const [users, setUsers] = useState([
-		{
-			id: 1,
-			name: "John",
-			surname: "example",
-			email: "john.doe@example.com",
-			role: "User",
-		},
-		{
-			id: 2,
-			name: "Jane",
-			surname: "example",
-			email: "jane.smith@example.com",
-			role: "User",
-		},
-		{
-			id: 3,
-			name: "Alice",
-			surname: "example",
-			email: "alice.johnson@example.com",
-			role: "User",
-		},
-		{
-			id: 4,
-			name: "Bob",
-			surname: "example",
-			email: "bob.brown@example.com",
-			role: "User",
-		},
-	]);
+	const [users, setUsers] = useState([]);
+	useEffect(() => {
+		const fetchUsers = async () => {
+			try {
+				const url =
+					process.env.REACT_APP_BACKEND_URL +
+					"user_management/get_all";
+				const response = await fetch(url, {
+					method: "GET",
+					headers: { "Content-Type": "application/json" },
+				});
+
+				const data = await response.json();
+				console.log(data);
+				setUsers(data);
+			} catch (error) {
+				console.log("error", error);
+			}
+		};
+
+		fetchUsers();
+	}, []);
 
 	const handleEdit = (id) => {
 		navigate(`/edit-user/${id}`);
 	};
 
-	const handleDelete = (id) => {
-		setUsers(users.filter((user) => user.id !== id));
+	const handleDelete = async (id) => {
+		const selectedUser = users.find((user) => user.id === id);
+		const email = selectedUser.email;
+		console.log("id, email: ", id, email);
+		console.log("selected uder to be deleted: ", selectedUser);
+
+		try {
+			const url =
+				process.env.REACT_APP_BACKEND_URL +
+				"user_management/delete/" +
+				id +
+				"/" +
+				email;
+			const response = await fetch(url, {
+				method: "DELETE",
+				headers: { "Content-Type": "application/json" },
+			});
+			const data = await response.json();
+			console.log(data);
+			setUsers(users.filter((user) => user.id !== id));
+		} catch (error) {
+			console.log("error", error);
+		}
 	};
 	const navigate = useNavigate();
 	const handleNavigation = (toPath) => {

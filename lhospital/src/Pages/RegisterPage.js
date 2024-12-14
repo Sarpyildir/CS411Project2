@@ -95,8 +95,8 @@ const RegisterPage = () => {
 	return (
 		<div style={styles.body}>
 			<div style={styles.container}>
-				<h2>Login</h2>
-				<p>Please fill in this form to login to your account.</p>
+				<h2>Register</h2>
+				<p>Please fill in this form to create a new account.</p>
 				<hr style={{ width: "80%", border: "1px solid #333" }} />
 			</div>
 			<form
