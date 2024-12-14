@@ -71,9 +71,56 @@ const UserManagementPage = () => {
 			backgroundColor: "#007BFF",
 			color: "white",
 		},
+		modalOverlay: {
+			position: "fixed",
+			top: 0,
+			left: 0,
+			width: "100%",
+			height: "100%",
+			backgroundColor: "rgba(0, 0, 0, 0.5)",
+			display: "flex",
+			justifyContent: "center",
+			alignItems: "center",
+		},
+		modalContent: {
+			width: "90%",
+			maxWidth: "600px",
+			backgroundColor: "#1e1e1e",
+			padding: "2%",
+			borderRadius: "10px",
+			boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+			textAlign: "center",
+		},
+		formGroup: {
+			marginBottom: "15px",
+			textAlign: "left",
+		},
+		label: {
+			display: "block",
+			marginBottom: "5px",
+			fontWeight: "bold",
+		},
+		input: {
+			width: "100%",
+			padding: "10px",
+			border: "1px solid #333",
+			borderRadius: "5px",
+			backgroundColor: "#2c2c2c",
+			color: "#e0e0e0",
+			boxSizing: "border-box",
+		},
+		buttonSave: {
+			backgroundColor: "#4caf50",
+		},
+		buttonCancel: {
+			backgroundColor: "#e53935",
+		},
 	};
 
 	const [users, setUsers] = useState([]);
+	const [showModal, setShowModal] = useState(false);
+	const [editingUser, setEditingUser] = useState(null);
+	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
@@ -86,7 +133,6 @@ const UserManagementPage = () => {
 				});
 
 				const data = await response.json();
-				console.log(data);
 				setUsers(data);
 			} catch (error) {
 				console.log("error", error);
@@ -96,16 +142,41 @@ const UserManagementPage = () => {
 		fetchUsers();
 	}, []);
 
-	const handleEdit = (id) => {
-		navigate(`/edit-user/${id}`);
+	const handleEdit = (user) => {
+		setEditingUser(user);
+		setShowModal(true);
+	};
+	const handleModalClose = () => {
+		setShowModal(false);
+		setEditingUser(null);
+	};
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setEditingUser({ ...editingUser, [name]: value });
+	};
+	const handleSave = async () => {
+		try {
+			const url = `${process.env.REACT_APP_BACKEND_URL}user_management/update/${editingUser.id}`;
+			await fetch(url, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(editingUser),
+			});
+
+			setUsers((prevUsers) =>
+				prevUsers.map((user) =>
+					user.id === editingUser.id ? editingUser : user
+				)
+			);
+			handleModalClose();
+		} catch (error) {
+			console.error("Error updating user:", error);
+		}
 	};
 
-	const handleDelete = async (id) => {
-		const selectedUser = users.find((user) => user.id === id);
+	const handleDelete = async (selectedUser) => {
+		const id = selectedUser.id;
 		const email = selectedUser.email;
-		console.log("id, email: ", id, email);
-		console.log("selected uder to be deleted: ", selectedUser);
-
 		try {
 			const url =
 				process.env.REACT_APP_BACKEND_URL +
@@ -118,13 +189,12 @@ const UserManagementPage = () => {
 				headers: { "Content-Type": "application/json" },
 			});
 			const data = await response.json();
-			console.log(data);
 			setUsers(users.filter((user) => user.id !== id));
 		} catch (error) {
 			console.log("error", error);
 		}
 	};
-	const navigate = useNavigate();
+
 	const handleNavigation = (toPath) => {
 		navigate(toPath);
 	};
@@ -158,7 +228,7 @@ const UserManagementPage = () => {
 											...styles.button,
 											...styles.buttonEdit,
 										}}
-										onClick={() => handleEdit(user.id)}
+										onClick={() => handleEdit(user)}
 									>
 										Edit
 									</button>
@@ -167,7 +237,7 @@ const UserManagementPage = () => {
 											...styles.button,
 											...styles.buttonDelete,
 										}}
-										onClick={() => handleDelete(user.id)}
+										onClick={() => handleDelete(user)}
 									>
 										Delete
 									</button>
@@ -178,13 +248,75 @@ const UserManagementPage = () => {
 				</table>
 				<button
 					style={{ ...styles.homeButton }}
-					onClick={() => {
-						handleNavigation("/home");
-					}}
+					onClick={() => handleNavigation("/home")}
 				>
 					Back To Home
 				</button>
 			</div>
+
+			{showModal && (
+				<div style={styles.modalOverlay}>
+					<div style={styles.modalContent}>
+						<h2>Edit User</h2>
+						<form>
+							<div style={styles.formGroup}>
+								<label style={styles.label}>Name:</label>
+								<input
+									style={styles.input}
+									type="text"
+									name="name"
+									value={editingUser.name}
+									onChange={handleChange}
+								/>
+							</div>
+							<div style={styles.formGroup}>
+								<label style={styles.label}>Surname:</label>
+								<input
+									style={styles.input}
+									type="text"
+									name="surname"
+									value={editingUser.surname}
+									onChange={handleChange}
+								/>
+							</div>
+							<div style={styles.formGroup}>
+								<label style={styles.label}>Email:</label>
+								<input
+									style={styles.input}
+									type="email"
+									name="email"
+									value={editingUser.email}
+									onChange={handleChange}
+								/>
+							</div>
+							<div style={styles.formGroup}>
+								<label style={styles.label}>Role:</label>
+								<select
+									style={styles.input}
+									name="role"
+									value={editingUser.role}
+									onChange={handleChange}
+								>
+									<option value="user">User</option>
+									<option value="admin">Admin</option>
+								</select>
+							</div>
+						</form>
+						<button
+							style={{ ...styles.button, ...styles.buttonSave }}
+							onClick={handleSave}
+						>
+							Save
+						</button>
+						<button
+							style={{ ...styles.button, ...styles.buttonCancel }}
+							onClick={handleModalClose}
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
