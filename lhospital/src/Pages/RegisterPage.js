@@ -63,7 +63,7 @@ const RegisterPage = () => {
 		surname: "",
 		password: "",
 		email: "",
-		role: "",
+		role: "user",
 	});
 
 	const handleChange = (e) => {
@@ -73,9 +73,10 @@ const RegisterPage = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
-		const url = process.env.REACT_APP_BACKEND_URL + "register/register"
-
+		console.log("form data: ", formData);
+		console.log("json stringify: ", JSON.stringify(formData));
+		const url = process.env.REACT_APP_BACKEND_URL + "register/register";
+		/*
 		const response = await fetch(url, {
 			method: "POST",
 			headers: {'Content-Type': 'application/json'},
@@ -89,6 +90,7 @@ const RegisterPage = () => {
         }
 
 		navigate("/");
+		*/
 	};
 	const handleGoToLogin = () => {
 		navigate("/");
