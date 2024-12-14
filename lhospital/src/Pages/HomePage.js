@@ -53,11 +53,8 @@ const HomePage = () => {
 		},
 	};
 	const navigate = useNavigate();
-	const handlePatientAdmissionRedirection = () => {
-		navigate("/admitted-patients");
-	};
-	const handleInpatientRedirection = () => {
-		navigate("/inpatient");
+	const handleNavigation = (toPath) => {
+		navigate(toPath);
 	};
 
 	return (
@@ -74,20 +71,27 @@ const HomePage = () => {
 				<div>
 					<button
 						style={{ ...styles.button, ...styles.btnPrimary }}
-						onClick={handlePatientAdmissionRedirection}
+						onClick={() => {
+							handleNavigation("/admitted-patients");
+						}}
 					>
 						Patient Admission Module
 					</button>
 					<button
 						style={{ ...styles.button, ...styles.btnPrimary }}
-						onClick={handleInpatientRedirection}
+						onClick={() => {
+							handleNavigation("/inpatient");
+						}}
 					>
 						Inpatient Module
 					</button>
 					<button
 						style={{ ...styles.button, ...styles.btnSecondary }}
+						onClick={() => {
+							handleNavigation("/user-management");
+						}}
 					>
-						View Profile
+						User Management
 					</button>
 				</div>
 			</div>
