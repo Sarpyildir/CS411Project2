@@ -59,8 +59,10 @@ const RegisterPage = () => {
 	};
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
-		username: "",
+		name: "",
+		surname: "",
 		password: "",
+		email: "",
 		role: "",
 	});
 
@@ -71,8 +73,22 @@ const RegisterPage = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("formdata: ", formData);
-		navigate("/home");
+
+		const url = process.env.REACT_APP_BACKEND_URL + "register/register"
+
+		const response = await fetch(url, {
+			method: "POST",
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(formData)
+		})
+
+		if (!response.ok) {
+			const data = await response.json()
+            alert(data.detail)
+			return
+        }
+
+		navigate("/");
 	};
 	const handleGoToLogin = () => {
 		navigate("/");
@@ -91,17 +107,51 @@ const RegisterPage = () => {
 				<div style={styles.formGroup}>
 					<label
 						style={styles.label}
-						htmlFor="username"
+						htmlFor="name"
 					>
-						Username:
+						Name:
 					</label>
 					<input
 						style={styles.input}
 						type="text"
-						id="username"
-						name="username"
-						placeholder="Enter username"
-						value={formData.username}
+						id="name"
+						name="name"
+						placeholder="Enter name"
+						value={formData.name}
+						onChange={handleChange}
+					/>
+				</div>
+				<div style={styles.formGroup}>
+					<label
+						style={styles.label}
+						htmlFor="surname"
+					>
+						Surname:
+					</label>
+					<input
+						style={styles.input}
+						type="text"
+						id="surname"
+						name="surname"
+						placeholder="Enter surname"
+						value={formData.surname}
+						onChange={handleChange}
+					/>
+				</div>
+				<div style={styles.formGroup}>
+					<label
+						style={styles.label}
+						htmlFor="email"
+					>
+						Email:
+					</label>
+					<input
+						style={styles.input}
+						type="email"
+						id="email"
+						name="email"
+						placeholder="Enter email"
+						value={formData.email}
 						onChange={handleChange}
 					/>
 				</div>

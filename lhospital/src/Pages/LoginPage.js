@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
@@ -62,7 +62,7 @@ const LoginPage = () => {
 	const navigate = useNavigate();
 
 	const [formData, setFormData] = useState({
-		username: "",
+		email: "",
 		password: "",
 	});
 
@@ -73,7 +73,21 @@ const LoginPage = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("formdata: ", formData);
+
+		const url = process.env.REACT_APP_BACKEND_URL + "login/login"
+
+		const response  = await fetch(url, {
+			method: "POST",
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(formData)
+		})
+
+		if (!response.ok) {
+            alert("Wrong password or email!")
+			return
+        }
+
+		localStorage.setItem("email", formData.email);
 		navigate("/verify");
 	};
 	const handleGoToRegister = () => {
@@ -93,17 +107,17 @@ const LoginPage = () => {
 				<div style={styles.formGroup}>
 					<label
 						style={styles.label}
-						htmlFor="username"
+						htmlFor="email"
 					>
-						Username:
+						Email:
 					</label>
 					<input
 						style={styles.input}
 						type="text"
-						id="username"
-						name="username"
-						placeholder="Enter username"
-						value={formData.username}
+						id="email"
+						name="email"
+						placeholder="Enter email"
+						value={formData.email}
 						onChange={handleChange}
 					/>
 				</div>

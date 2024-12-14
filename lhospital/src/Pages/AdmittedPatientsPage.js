@@ -72,8 +72,8 @@ const AdmittedPatientsPage = () => {
             fontWeight: "bold",
         },
         homeButton: {
-            backgroundColor: "#007BFF",
-            color: "white",
+            backgroundColor: "aqua",
+            color: "black",
             left: "10px",
             top: "10px",
         },

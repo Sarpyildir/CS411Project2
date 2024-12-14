@@ -8,6 +8,8 @@ import PatientAdmissionPage from "./Pages/PatientAdmissionPage";
 import InpatientPage from "./Pages/InpatientPage";
 import AdmittedPatientsPage from "./Pages/AdmittedPatientsPage";
 import UserManagementPage from "./Pages/UserManagementPage";
+import ProfilePage from "./Pages/ProfilePage";
+
 
 function App() {
 	return (
@@ -38,6 +40,7 @@ function App() {
 				element={<InpatientPage />}
 			/>
 
+
 			<Route
 				path="/admitted-patients"
 				element={<AdmittedPatientsPage />}
@@ -46,6 +49,12 @@ function App() {
 				path="/user-management"
 				element={<UserManagementPage />}
 			/>
+
+		<Route
+			path="/profile"
+			element={<ProfilePage />}
+		/>
+
 		</Routes>
 	);
 }
