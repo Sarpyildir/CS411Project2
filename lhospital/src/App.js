@@ -7,6 +7,7 @@ import VerificationPage from "./Pages/VerificationPage";
 import PatientAdmissionPage from "./Pages/PatientAdmissionPage";
 import InpatientPage from "./Pages/InpatientPage";
 import AdmittedPatientsPage from "./Pages/AdmittedPatientsPage";
+import UserManagementPage from "./Pages/UserManagementPage";
 import ProfilePage from "./Pages/ProfilePage";
 
 
@@ -34,25 +35,26 @@ function App() {
 				element={<PatientAdmissionPage />}
 			/>
 
-        <Route
-            path = "/admitted-admissions"
-            element = {<AdmittedPatientsPage />}
-        />
+			<Route
+				path="/inpatient"
+				element={<InpatientPage />}
+			/>
 
-		<Route
-			path="/inpatient"
-			element={<InpatientPage />}
-		/>
 
-		<Route
-			path="/admitted-patients"
-			element={<AdmittedPatientsPage />}
-		/>
+			<Route
+				path="/admitted-patients"
+				element={<AdmittedPatientsPage />}
+			/>
+			<Route
+				path="/user-management"
+				element={<UserManagementPage />}
+			/>
 
 		<Route
 			path="/profile"
 			element={<ProfilePage />}
 		/>
+
 		</Routes>
 	);
 }
