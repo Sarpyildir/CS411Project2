@@ -63,7 +63,7 @@ const RegisterPage = () => {
 		surname: "",
 		password: "",
 		email: "",
-		role: "",
+		role: "user",
 	});
 
 	const handleChange = (e) => {
@@ -74,19 +74,18 @@ const RegisterPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const url = process.env.REACT_APP_BACKEND_URL + "register/register"
-
+		const url = process.env.REACT_APP_BACKEND_URL + "register/register";
 		const response = await fetch(url, {
 			method: "POST",
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify(formData)
-		})
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(formData),
+		});
 
 		if (!response.ok) {
-			const data = await response.json()
-            alert(data.detail)
-			return
-        }
+			const data = await response.json();
+			alert(data.detail);
+			return;
+		}
 
 		navigate("/");
 	};
@@ -96,8 +95,8 @@ const RegisterPage = () => {
 	return (
 		<div style={styles.body}>
 			<div style={styles.container}>
-				<h2>Login</h2>
-				<p>Please fill in this form to login to your account.</p>
+				<h2>Register</h2>
+				<p>Please fill in this form to create a new account.</p>
 				<hr style={{ width: "80%", border: "1px solid #333" }} />
 			</div>
 			<form
