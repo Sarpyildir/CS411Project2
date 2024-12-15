@@ -394,7 +394,7 @@ const InpatientPage = () => {
 								onChange={handleInputChange}
 								de
 								>
-								<option hidden disabled selected value>Government ID</option>
+								<option hidden disabled selected value>Patient</option>
 							{admissions.map((admission) => {
 								return <option value={admission.government_id}>{admission.patient_name} {admission.patient_surname}</option>
 							})}
