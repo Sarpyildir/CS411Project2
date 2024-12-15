@@ -2,10 +2,9 @@ import React, { useState } from "react";
 
 const UpdateInpatientModal = ({ show, onClose, onUpdate, patient }) => {
 	const [formData, setFormData] = useState({
-		// Initialize form data with the patient's current values. if a value is changed, it will be updated in the state.
-		department_id: patient[2],
-		room_number: patient[3],
-		status: patient[6] || "active",
+		department_id: patient.department_id,
+		room_number: patient.room_number,
+		status: patient.status || "active",
 	});
 
 	const handleInputChange = (e) => {
@@ -14,8 +13,9 @@ const UpdateInpatientModal = ({ show, onClose, onUpdate, patient }) => {
 	};
 
 	const handleSubmit = (e) => {
+		console.log(patient)
 		e.preventDefault();
-		onUpdate(patient[0], formData); // Pass the inpatient ID and updated data
+		onUpdate(patient.id, formData); // Pass the inpatient ID and updated data
 		onClose(); // Close the modal
 	};
 

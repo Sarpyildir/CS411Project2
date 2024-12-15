@@ -94,7 +94,7 @@ const ProfilePage = () => {
             // get the data
             const data = await response.json();
             console.log(data);
-            setUserData({name: data.user[1], surname: data.user[2], email: data.user[3], role: data.user[4]});
+            setUserData({name: data.name, surname: data.surname, email: data.email, role: data.role});
             }
             catch (error) {
                 console.log("error", error);

@@ -102,7 +102,7 @@ const PatientAdmission = () => {
 		gender: "",
 		contact: "",
 		address: "",
-		government_id: 0,
+		government_id: "",
 		insurance: "",
 		department_id: "",
 		admitted_on: new Date().toISOString(),
@@ -127,6 +127,8 @@ const PatientAdmission = () => {
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(formData)
 		})
+
+		navigate("/admitted-patients");
 
 	};
 
@@ -259,7 +261,7 @@ const PatientAdmission = () => {
 					</label>
 					<input
 						style={styles.fullWidthInput}
-						type="number"
+						type="text"
 						id="government_id"
 						name="government_id"
 						value={formData.nationalID}

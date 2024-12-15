@@ -174,7 +174,7 @@ const InpatientPage = () => {
 
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
 	const [selectedPatient, setSelectedPatient] = useState(null);
-
+	const [admissions, setAdmissions] = useState([]);
 	const [patients, setPatients] = useState([]);
 	const [newPatient, setNewPatient] = useState({
 		government_id: null,
@@ -188,9 +188,9 @@ const InpatientPage = () => {
 
 	// filter patients based on search query. name surname is colelcted in one string using patient[9] and patient[10]
 	const filteredPatients = patients.filter((patient) => {
-		const roomNumber = String(patient[3] || "").toLowerCase(); // Convert room number to string
-		const firstName = String(patient[9] || "").toLowerCase(); // Convert first name to string
-		const lastName = String(patient[10] || "").toLowerCase(); // Convert last name to string
+		const roomNumber = String(patient.room_number || "").toLowerCase(); // Convert room number to string
+		const firstName = String(patient.patient_name || "").toLowerCase(); // Convert first name to string
+		const lastName = String(patient.patient_surname || "").toLowerCase(); // Convert last name to string
 		const searchTerm = searchQuery.toLowerCase(); // Convert the search term to lowercase
 
 		return (
@@ -279,7 +279,7 @@ const InpatientPage = () => {
 					alert("Inpatient updated successfully.");
 					setPatients((prev) =>
 						prev.map((p) =>
-							p[0] === inpatientId ? { ...p, ...updatedData } : p
+							p.id === inpatientId ? { ...p, ...updatedData } : p
 						)
 					);
 					window.location.reload();
@@ -293,7 +293,7 @@ const InpatientPage = () => {
 	const handleDischargePatient = async (index) => {
 		const patientToDischarge = patients[index];
 
-		const patientId = patientToDischarge[0]; // Extract the ID from the specific index
+		const patientId = patientToDischarge.id; // Extract the ID from the specific index
 
 		console.log("Patient to discharge:", patientToDischarge);
 		console.log("Extracted ID:", patientId);
@@ -310,7 +310,13 @@ const InpatientPage = () => {
 			const response = await fetch(url, { method: "PUT" });
 
 			if (response.ok) {
-				setPatients(patients.filter((_, i) => i !== index)); // Remove the discharged patient
+				patientToDischarge["status"] = "discharged"
+				setPatients((prev) =>
+					prev.map((p) =>
+						p.id === patientId ? { ...p, ...patientToDischarge } : p
+					)
+				);
+
 				alert("Patient discharged successfully.");
 			} else {
 				const error = await response.json();
@@ -339,6 +345,38 @@ const InpatientPage = () => {
 		);
 	};
 
+		useEffect(() => {
+			const fetchAdmissions = async () => {
+				try {
+					const url = process.env.REACT_APP_BACKEND_URL + "admission/listAdmissions";
+					const response = await fetch(url);
+	
+					if (response.ok) {
+						const data = await response.json();
+	
+						// Map department IDs to names
+						data.forEach((admission) => {
+							if (admission.department_id === 1) {
+								admission.departmentName = "Cardiology";
+							} else if (admission.department_id === 2) {
+								admission.departmentName = "Neurology";
+							} else if (admission.department_id === 3) {
+								admission.departmentName = "Orthopedics";
+							}
+						});
+	
+						setAdmissions(data);
+					} else {
+						throw new Error("Failed to fetch admissions.");
+					}
+				} catch (error) {
+				} finally {
+				}
+			};
+	
+			fetchAdmissions();
+		}, []);
+
 	return (
 		<div style={styles.body}>
 			<div style={styles.container}>
@@ -350,14 +388,17 @@ const InpatientPage = () => {
 				</header>
 				<div style={styles.form}>
 					<div style={styles.inputContainer}>
-						<input
-							style={styles.lessWidthInput}
-							type="text"
-							name="government_id"
-							placeholder="Government ID"
-							value={newPatient.government_id}
-							onChange={handleInputChange}
-						/>
+						<select name="government_id" 
+								placeholder="Government ID" 
+								style={styles.lessWidthInput} 
+								onChange={handleInputChange}
+								de
+								>
+								<option hidden disabled selected value>Government ID</option>
+							{admissions.map((admission) => {
+								return <option value={admission.government_id}>{admission.patient_name} {admission.patient_surname}</option>
+							})}
+						</select>
 						<input
 							style={styles.lessWidthInput}
 							type="text"
@@ -412,17 +453,17 @@ const InpatientPage = () => {
 					<ul>
 						{filteredPatients.map((patient, index) => (
 							<li
-								key={patient[0] || index}
+								key={patient.id || index}
 								style={styles.impatientBg}
 							>
 								<p>
-									<strong>ID:</strong> {patient[0]} <br />
+									<strong>ID:</strong> {patient.government_id} <br />
 									<strong>Name:</strong>{" "}
-									{patient[9] + " " + patient[10]} <br />
-									<strong>Department:</strong> {patient[18]}{" "}
+									{patient.patient_name + " " + patient.patient_surname} <br />
+									<strong>Department:</strong> {patient.department_name}{" "}
 									<br />
-									<strong>Room:</strong> {patient[3]} <br />
-									<strong>Status:</strong> {patient[6]}
+									<strong>Room:</strong> {patient.room_number} <br />
+									<strong>Status:</strong> {patient.status}
 								</p>
 								{dischargePatientButton(index)}
 								{/* Add the Update button */}

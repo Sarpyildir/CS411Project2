@@ -2,14 +2,14 @@ import React, { useState } from "react";
 
 const UpdateAdmissionModal = ({ show, onClose, onUpdate, admission }) => {
     const [formData, setFormData] = useState({
-        patientName: admission[2] || "",
-        patientSurname: admission[3] || "",
-        age: admission[4] || "",
-        gender: admission[5] || "",
-        address: admission[7] || "",
-        contact: admission[6] || "",
-        insurance: admission[9] || "",
-        departmentId: admission[10] || "",
+        patientName: admission.patient_name || "",
+        patientSurname: admission.patient_surname || "",
+        age: admission.age || "",
+        gender: admission.gender || "",
+        address: admission.address || "",
+        contact: admission.contact || "",
+        insurance: admission.insurance || "",
+        departmentId: admission.department_id || "",
     });
 
     const departments = [
@@ -37,7 +37,7 @@ const UpdateAdmissionModal = ({ show, onClose, onUpdate, admission }) => {
         };
 
         try {
-            const url = `${process.env.REACT_APP_BACKEND_URL}admission/admissions/${admission[0]}`;
+            const url = `${process.env.REACT_APP_BACKEND_URL}admission/admissions/${admission.admission_id}`;
             const response = await fetch(url, {
                 method: "PUT",
                 headers: {
@@ -48,7 +48,10 @@ const UpdateAdmissionModal = ({ show, onClose, onUpdate, admission }) => {
 
             if (response.ok) {
                 alert("Admission updated successfully.");
-                onUpdate(updatedAdmission); // Call the parent function to update the UI.
+                updatedAdmission["admission_id"] = admission.admission_id
+                updatedAdmission["government_id"] = admission.government_id
+                updatedAdmission["admitted_on"] = admission.admitted_on
+                onUpdate(updatedAdmission);
             } else {
                 const errorData = await response.json();
                 alert(`Error updating admission: ${errorData.message || "Unknown error"}`);

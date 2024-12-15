@@ -101,6 +101,15 @@ const HomePage = () => {
 					>
 						Profile Page
 					</button>
+					<button
+						style={{ ...styles.button, ...styles.btnSecondary }}
+						onClick={() => {
+							localStorage.setItem("email", undefined) 
+							navigate("/")
+						}}
+					>
+						Log Out
+					</button>
 				</div>
 			</div>
 		</div>

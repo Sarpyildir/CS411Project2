@@ -104,11 +104,11 @@ const AdmittedPatientsPage = () => {
 
                     // Map department IDs to names
                     data.forEach((admission) => {
-                        if (admission[10] === 1) {
+                        if (admission.department_id === 1) {
                             admission.departmentName = "Cardiology";
-                        } else if (admission[10] === 2) {
+                        } else if (admission.department_id === 2) {
                             admission.departmentName = "Neurology";
-                        } else if (admission[10] === 3) {
+                        } else if (admission.department_id === 3) {
                             admission.departmentName = "Orthopedics";
                         }
                     });
@@ -139,9 +139,12 @@ const AdmittedPatientsPage = () => {
 
     const handleUpdateAdmission = (updatedAdmission) => {
         const updatedAdmissions = admissions.map((admission) =>
-            admission[0] === updatedAdmission[0] ? updatedAdmission : admission
+            admission.admission_id === updatedAdmission.admission_id ? updatedAdmission : admission
         );
-        setAdmissions(updatedAdmissions);
+
+        setAdmissions(updatedAdmissions)
+
+        navigate("/admitted-patients")
     };
 
     const handleNavigateToAdmission = () => {
@@ -181,7 +184,8 @@ const AdmittedPatientsPage = () => {
                 <table style={styles.table}>
                     <thead>
                         <tr>
-                            <th style={styles.tableHeader}>Patient Name Surname</th>
+                            <th style={styles.tableHeader}>Patient Name</th>
+                            <th style={styles.tableHeader}>Patient Surname</th>
                             <th style={styles.tableHeader}>Patient Government ID</th>
                             <th style={styles.tableHeader}>Age</th>
                             <th style={styles.tableHeader}>Gender</th>
@@ -196,15 +200,16 @@ const AdmittedPatientsPage = () => {
                     <tbody>
                         {admissions.map((admission, index) => (
                             <tr key={index} style={styles.tableRow}>
-                                <td style={styles.tableCell}>{`${admission[2]} ${admission[3]}`}</td>
-                                <td style={styles.tableCell}>{admission[1]}</td>
-                                <td style={styles.tableCell}>{admission[4]}</td>
-                                <td style={styles.tableCell}>{admission[5]}</td>
-                                <td style={styles.tableCell}>{admission[8]}</td>
-                                <td style={styles.tableCell}>{admission[9]}</td>
+                                <td style={styles.tableCell}>{admission.patient_name}</td>
+                                <td style={styles.tableCell}>{admission.patient_surname}</td>
+                                <td style={styles.tableCell}>{admission.government_id}</td>
+                                <td style={styles.tableCell}>{admission.age}</td>
+                                <td style={styles.tableCell}>{admission.gender}</td>
+                                <td style={styles.tableCell}>{admission.admitted_on}</td>
+                                <td style={styles.tableCell}>{admission.insurance}</td>
                                 <td style={styles.tableCell}>{admission.departmentName}</td>
-                                <td style={styles.tableCell}>{admission[7]}</td>
-                                <td style={styles.tableCell}>{admission[6]}</td>
+                                <td style={styles.tableCell}>{admission.address}</td>
+                                <td style={styles.tableCell}>{admission.contact}</td>
                                 <td style={styles.tableCell}>
                                     <button
                                         style={styles.updateButton}
