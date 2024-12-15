@@ -52,6 +52,13 @@ const HomePage = () => {
 			color: "black",
 		},
 	};
+	const roleOfUser = localStorage.getItem("role");
+	console.log("local storage: ", localStorage);
+	console.log(
+		"local strogae role :",
+		localStorage.getItem("role"),
+		roleOfUser
+	);
 	const navigate = useNavigate();
 	const handleNavigation = (toPath) => {
 		navigate(toPath);
@@ -85,14 +92,16 @@ const HomePage = () => {
 					>
 						Inpatient Module
 					</button>
-					<button
-						style={{ ...styles.button, ...styles.btnSecondary }}
-						onClick={() => {
-							handleNavigation("/user-management");
-						}}
-					>
-						User Management
-					</button>
+					{roleOfUser === "admin" && (
+						<button
+							style={{ ...styles.button, ...styles.btnSecondary }}
+							onClick={() => {
+								handleNavigation("/user-management");
+							}}
+						>
+							User Management
+						</button>
+					)}
 					<button
 						style={{ ...styles.button, ...styles.btnSecondary }}
 						onClick={() => {
@@ -104,8 +113,9 @@ const HomePage = () => {
 					<button
 						style={{ ...styles.button, ...styles.btnSecondary }}
 						onClick={() => {
-							localStorage.setItem("email", undefined) 
-							navigate("/")
+							localStorage.setItem("email", undefined);
+							localStorage.setItem("role", undefined);
+							navigate("/");
 						}}
 					>
 						Log Out

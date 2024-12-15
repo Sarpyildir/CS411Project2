@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const VerificationPage = () => {
@@ -53,19 +53,24 @@ const VerificationPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const url = process.env.REACT_APP_BACKEND_URL + "login/checkCode"
-		
+		const url = process.env.REACT_APP_BACKEND_URL + "login/checkCode";
+
 		const response = await fetch(url, {
 			method: "POST",
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify({email: localStorage.getItem("email"), code: verificationCode})
-		})
-
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				email: localStorage.getItem("email"),
+				code: verificationCode,
+			}),
+		});
 		if (!response.ok) {
-            alert("Verification code is not correct!")
-			return
-        }
-
+			alert("Verification code is not correct!");
+			return;
+		}
+		const data = await response.json();
+		console.log("data: ", data);
+		console.log("data.role : ", data.user.role);
+		localStorage.setItem("role", data.user.role);
 		navigate("/home");
 	};
 
