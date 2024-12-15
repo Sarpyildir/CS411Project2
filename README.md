@@ -12,12 +12,6 @@ This is the React-based frontend for the project. It connects to the backend to 
 
 ### 1. Clone the Repository
 
-### 2. Create a .env file inside lhospital folder. Not in any other subfolder.
-/lhospital/.env
-
-### 3. In the .env file type this:
-REACT_APP_BACKEND_URL="your-backend-url"
-
 ### 2. Run the command
 npm install
 npm start
